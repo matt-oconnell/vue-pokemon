@@ -5,7 +5,7 @@
       <Player :player="players[1]"></Player>
     </div>
     <TextBlock>
-      <MoveSelector @chooseMove="attack" :moves="currentPlayerMoves" v-show="showMoves"></MoveSelector>
+      <MoveSelector @chooseMove="attack" :moves="attackingPlayerMoves" v-show="showMoves"></MoveSelector>
       <Status :status="status" v-show="!showMoves"></Status>
     </TextBlock>
   </div>
@@ -36,10 +36,12 @@ export default {
         {
           character: clonedeep(characterMap['xyz']),
           type: PLAYER_TYPE_COMPUTER,
+          name: 'Computer'
         },
         {
           character: clonedeep(characterMap['xyz']),
           type: PLAYER_TYPE_HUMAN,
+          name: 'Matt O'
         }
       ],
       turn: 1,
@@ -48,11 +50,11 @@ export default {
     }
   },
   computed: {
-    currentPlayer() {
+    attackingPlayer() {
       return this.players[this.turn];
     },
-    currentPlayerMoves() {
-      return Object.keys(this.currentPlayer.character.moves);
+    attackingPlayerMoves() {
+      return Object.keys(this.attackingPlayer.character.moves);
     },
     defendingPlayer() {
       return this.players[Math.abs(this.turn - 1)];
@@ -63,20 +65,20 @@ export default {
       this.showMoves = false;
 
       if (!move) {
-        move = this.currentPlayerMoves[Math.floor(Math.random() * (this.currentPlayerMoves.length))];
+        move = this.attackingPlayerMoves[Math.floor(Math.random() * (this.attackingPlayerMoves.length))];
         console.log('move');
         
       }
 
-      const moveDamage = this.currentPlayer.character.moves[move];
-      this.status = `${this.currentPlayer.character.name} used ${move}!`;
+      const moveDamage = this.attackingPlayer.character.moves[move];
+      this.status = `${this.attackingPlayer.name}'s ${this.attackingPlayer.character.name} used ${move}!`;
       const random = Math.floor(Math.random() * 100);
       const hitRange = 100 - moveDamage;
       const hit = random < hitRange;
       
       sleep(1000).then(() => {
         if (hit) {
-          this.status = `It's a direct hit! ${this.defendingPlayer.character.name} takes ${moveDamage} damage!`;
+          this.status = `It's a direct hit! ${this.defendingPlayer.name}'s ${this.defendingPlayer.character.name} takes ${moveDamage} damage!`;
           this.defendingPlayer.character.hp -= moveDamage
         }
         else {
@@ -94,7 +96,7 @@ export default {
         this.endGame();
         return;
       }
-      if (this.currentPlayer.type === PLAYER_TYPE_HUMAN) {
+      if (this.attackingPlayer.type === PLAYER_TYPE_HUMAN) {
         this.humanTurn();
       } else {
         this.computerTurn();

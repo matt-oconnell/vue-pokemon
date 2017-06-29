@@ -12,7 +12,7 @@ export default {}
   .text-block {
     border: 2px solid black;
     border-radius: 4px; 
-    width: 100%;
+    width: 90%;
     min-height: 100px;
     text-align: left;
     padding: 20px;

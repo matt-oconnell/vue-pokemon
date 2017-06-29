@@ -22,5 +22,9 @@ export default {
     padding: 10px;
     display: inline-block;
   }
+
+  li {
+    width: 40%;
+  }
 </style>
 

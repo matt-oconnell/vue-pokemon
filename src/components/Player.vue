@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h1>{{ player.character.name }}</h1>
+    <h1>{{ player.name }}</h1>
     <h2>:L<span>{{ player.character.level }}</span></h2>
+    <img :src="player.type === playerTypes.human ? player.character.sprite.back : player.character.sprite.front">
     <div class="health-bar">
       <p>HP:</p>
       <div class="bar">
@@ -65,5 +66,10 @@ export default {
         height: 100%;
       }
     }
+  }
+
+  img {
+    width: 100px;
+    text-align: left;
   }
 </style>
