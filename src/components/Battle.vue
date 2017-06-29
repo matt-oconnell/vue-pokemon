@@ -18,9 +18,11 @@ import Player from './Player';
 import Stage from './Stage';
 import Status from './Status';
 import TextBlock from './TextBlock';
-import characterMap from './characterMap';
+import characterMap, { SQUIRTLE, BULBASAUR, CHARMANDER } from './characterMap';
 import sleep from './../utils/sleep';
 import { PLAYER_TYPE_COMPUTER, PLAYER_TYPE_HUMAN } from './constants';
+
+const pokemon = [ SQUIRTLE, BULBASAUR, CHARMANDER ];
 
 export default {
   components: {
@@ -34,12 +36,12 @@ export default {
     return {
       players: [
         {
-          character: clonedeep(characterMap['xyz']),
+          character: clonedeep(characterMap[pokemon[Math.floor(Math.random() * (pokemon.length))]]),
           type: PLAYER_TYPE_COMPUTER,
           name: 'Computer'
         },
         {
-          character: clonedeep(characterMap['xyz']),
+          character: clonedeep(characterMap[this.$route.query.pokemon]),
           type: PLAYER_TYPE_HUMAN,
           name: 'Matt O'
         }
@@ -66,8 +68,6 @@ export default {
 
       if (!move) {
         move = this.attackingPlayerMoves[Math.floor(Math.random() * (this.attackingPlayerMoves.length))];
-        console.log('move');
-        
       }
 
       const moveDamage = this.attackingPlayer.character.moves[move];
@@ -110,13 +110,12 @@ export default {
     },
     computerTurn() {
       this.status = 'Computer turn';
-      sleep(1000).then(() => {
-        this.attack()
-      });
+      sleep(1000).then(this.attack());
     }
   },
   mounted() {
-    this.nextTurn();
+    this.status = `A wild ${this.players[0].character.name} appears!`;
+    sleep(1000).then(this.nextTurn);
   },
 }
 </script>

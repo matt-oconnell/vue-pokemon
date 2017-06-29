@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Main from '@/components/Main'
+import Intro from '@/components/Intro'
+import Battle from '@/components/Battle'
 
 Vue.use(Router)
 
@@ -8,8 +9,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Main',
-      component: Main
+      name: 'Intro',
+      component: Intro
+    },
+    {
+      path: '/battle',
+      name: 'Battle',
+      component: Battle
     }
   ]
 })
