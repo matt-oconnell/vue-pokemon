@@ -5,10 +5,10 @@
     <div class="health-bar">
       <p>HP:</p>
       <div class="bar">
-        <div class="bar-inner" :style="`width: ${hpPercentage}`"></div>
+        <div class="bar-inner" :style="`width: ${hpPercentage}%`"></div>
       </div>
       <div v-if="player.type === playerTypes.human" class="hp-fraction">
-        {{ player.character.hp }} / {{ hpTotal }}
+        {{ player.character.hp }} / {{ player.character.totalHp }}
       </div>
     </div>
   </div>
@@ -22,7 +22,6 @@ export default {
   data() {
     return {
       level: 21,
-      hpTotal: this.player.character.hp,
       playerTypes: {
         human: PLAYER_TYPE_HUMAN,
         computer: PLAYER_TYPE_COMPUTER
@@ -31,7 +30,10 @@ export default {
   },
   computed: {
     hpPercentage() {
-      return this.player.character.hp / this.hpTotal
+      if (this.player.character.hp <= 0) {
+        return 0
+      }
+      return this.player.character.hp / this.player.character.totalHp * 100
     }
   },
   methods: {

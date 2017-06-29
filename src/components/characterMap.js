@@ -1,7 +1,8 @@
 export default {
   xyz: {
     name: 'xyz',
-    hp: 57,
+    hp: 200,
+    totalHp: 200,
     level: 10,
     moves: {
       scratch: 35,

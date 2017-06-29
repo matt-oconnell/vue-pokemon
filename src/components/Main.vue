@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import clonedeep from 'lodash.clonedeep';
 import MoveSelector from './MoveSelector';
 import Player from './Player';
 import Stage from './Stage';
@@ -33,11 +34,11 @@ export default {
     return {
       players: [
         {
-          character: characterMap['xyz'],
+          character: clonedeep(characterMap['xyz']),
           type: PLAYER_TYPE_COMPUTER,
         },
         {
-          character: characterMap['xyz'],
+          character: clonedeep(characterMap['xyz']),
           type: PLAYER_TYPE_HUMAN,
         }
       ],
@@ -60,20 +61,42 @@ export default {
   methods: {
     attack(move) {
       this.showMoves = false;
+
+      if (!move) {
+        move = this.currentPlayerMoves[Math.floor(Math.random() * (this.currentPlayerMoves.length))];
+        console.log('move');
+        
+      }
+
+      const moveDamage = this.currentPlayer.character.moves[move];
+      this.status = `${this.currentPlayer.character.name} used ${move}!`;
+      const random = Math.floor(Math.random() * 100);
+      const hitRange = 100 - moveDamage;
+      const hit = random < hitRange;
       
-      this.status = 'attacking with ' + move + ' for this damage' + this.currentPlayer.character.moves[move];
+      sleep(1000).then(() => {
+        if (hit) {
+          this.status = `It's a direct hit! ${this.defendingPlayer.character.name} takes ${moveDamage} damage!`;
+          this.defendingPlayer.character.hp -= moveDamage
+        }
+        else {
+          this.status = 'Ooh, a miss!';
+        }
+        return sleep(1000).then(() => {
+          this.nextTurn();
+        });
+      });
     },
     // engine stuff
     nextTurn() {
       this.turn = Math.abs(this.turn - 1);
-      if (this.currentPlayer.hp <= 0) {
+      if (this.defendingPlayer.character.hp <= 0) {
         this.endGame();
         return;
       }
       if (this.currentPlayer.type === PLAYER_TYPE_HUMAN) {
         this.humanTurn();
-      }
-      else {
+      } else {
         this.computerTurn();
       }
     },
@@ -84,18 +107,10 @@ export default {
       this.showMoves = true;
     },
     computerTurn() {
-      this.status = 'Computer is doing stuff';
+      this.status = 'Computer turn';
       sleep(1000).then(() => {
-        this.status = 'computer attacks';
-        return sleep(1000);
-      })
-      .then(() => {
-        this.status = '!computer is done attacking';
-        return sleep(1000);
-      })
-      .then(() => {
-        this.nextTurn();
-      })
+        this.attack()
+      });
     }
   },
   mounted() {
