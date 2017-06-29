@@ -11,13 +11,8 @@ export default {
 </script>
 
 <style>
-  @font-face {
-    font-family: 'Pokemon GB';
-    src: url('/fonts/Pokemon GB.ttf')  format('truetype');
-  }
-
   #app {
-    font-family: 'Early GameBoy', 'times';
+    font-family: 'pokemon-font', monospace;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;

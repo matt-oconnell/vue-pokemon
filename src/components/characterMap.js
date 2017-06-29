@@ -3,7 +3,7 @@ export default {
     name: 'xyz',
     hp: 57,
     level: 10,
-    attacks: {
+    moves: {
       scratch: 35,
       growl: 40,
       ember: 25,
