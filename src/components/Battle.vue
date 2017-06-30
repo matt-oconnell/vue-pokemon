@@ -50,7 +50,7 @@ export default {
       turn: 1,
       status: '',
       showMoves: false,
-      textSleep: 750,
+      textSleep: 1200,
     }
   },
   computed: {

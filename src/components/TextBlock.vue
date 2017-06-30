@@ -13,7 +13,7 @@ export default {}
     border: 2px solid black;
     border-radius: 4px; 
     width: 100%;
-    min-height: 100px;
+    height: 192px;
     text-align: left;
     padding: 20px;
     font-size: 25px;
