@@ -43,7 +43,7 @@ export default {
         {
           character: clonedeep(characterMap[this.$route.query.pokemon]),
           type: PLAYER_TYPE_HUMAN,
-          name: 'Matt O'
+          name: this.$route.query.playerName
         }
       ],
       turn: 1,
