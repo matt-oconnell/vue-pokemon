@@ -5,8 +5,8 @@ export const CHARMANDER = 'Charmander';
 export default {
   Squirtle: {
     name: 'Squirtle',
-    hp: 200,
-    totalHp: 200,
+    hp: 100,
+    totalHp: 100,
     level: 10,
     moves: {
       Tackle: 35,
@@ -21,8 +21,8 @@ export default {
   },
   Bulbasaur: {
     name: 'Bulbasaur',
-    hp: 200,
-    totalHp: 200,
+    hp: 100,
+    totalHp: 100,
     level: 10,
     moves: {
       Tackle: 35,
@@ -37,8 +37,8 @@ export default {
   },
   Charmander: {
     name: 'Charmander',
-    hp: 200,
-    totalHp: 200,
+    hp: 100,
+    totalHp: 100,
     level: 10,
     moves: {
       Scratch: 35,

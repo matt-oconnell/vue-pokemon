@@ -93,7 +93,7 @@ export default {
     // engine stuff
     nextTurn() {
       this.turn = Math.abs(this.turn - 1);
-      if (this.defendingPlayer.character.hp <= 0) {
+      if (this.attackingPlayer.character.hp <= 0) {
         this.endGame();
         return;
       }
