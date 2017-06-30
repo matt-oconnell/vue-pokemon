@@ -24,6 +24,7 @@ import { PLAYER_TYPE_COMPUTER, PLAYER_TYPE_HUMAN } from './constants';
 
 const pokemon = [ SQUIRTLE, BULBASAUR, CHARMANDER ];
 
+
 export default {
   components: {
     MoveSelector,
