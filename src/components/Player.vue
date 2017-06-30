@@ -1,40 +1,34 @@
 <template>
-  <div>
+  <div :class="{ right: player.isHuman }">
     <h1>{{ player.name }}</h1>
     <h2>:L<span>{{ player.character.level }}</span></h2>
-    <img :src="player.type === playerTypes.human ? player.character.sprite.back : player.character.sprite.front">
+    <img :src="sprite">
     <div class="health-bar">
       <p>HP:</p>
       <div class="bar">
-        <div class="bar-inner" :style="`width: ${hpPercentage}%`"></div>
+        <div :style="`width: ${hpPercentage}%`"></div>
       </div>
-      <div v-if="player.type === playerTypes.human" class="hp-fraction">
-        {{ player.character.hp >= 0 ? player.character.hp : 0 }} / {{ player.character.totalHp }}
+      <div v-if="player.isHuman" class="hp-fraction">
+        {{ hp }} / {{ player.character.totalHp }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { PLAYER_TYPE_COMPUTER, PLAYER_TYPE_HUMAN } from './constants';
-
 export default {
   props: ['player'],
   data() {
     return {
-      level: 21,
-      playerTypes: {
-        human: PLAYER_TYPE_HUMAN,
-        computer: PLAYER_TYPE_COMPUTER
-      }
+      sprite: this.player.isHuman ? this.player.character.sprite.back : this.player.character.sprite.front
     }
   },
   computed: {
+    hp() {
+      return this.player.character.hp <= 0 ? 0 : this.player.character.hp;
+    },
     hpPercentage() {
-      if (this.player.character.hp <= 0) {
-        return 0
-      }
-      return this.player.character.hp / this.player.character.totalHp * 100
+      return this.hp / this.player.character.totalHp * 100
     }
   }
 }
@@ -42,9 +36,9 @@ export default {
 
 <style lang="scss" scoped>
   h1, h2 {
-    text-align: left;
-    display: block;
+    width: 100%;
     margin: 0;
+    text-align: left;
   }
 
   .health-bar {
@@ -57,6 +51,7 @@ export default {
       border-radius: 4px;
 
       div {
+        transition: width .5s;
         background: lightblue;
         height: 100%;
       }
@@ -64,7 +59,11 @@ export default {
   }
 
   img {
-    width: 100px;
-    text-align: left;
+    width: 130px;
+    text-align: right;
+  }
+
+  .right h1, .right h2 {
+    text-align: right;
   }
 </style>

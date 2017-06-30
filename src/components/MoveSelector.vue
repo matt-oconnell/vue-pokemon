@@ -25,6 +25,12 @@ export default {
 
   li {
     width: 40%;
+
+    &:hover {
+      opacity: .7;
+      cursor: pointer;
+      transition: opacity .5s;
+    }
   }
 </style>
 

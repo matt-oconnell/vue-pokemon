@@ -15,21 +15,21 @@
 import clonedeep from 'lodash.clonedeep';
 import MoveSelector from './MoveSelector';
 import Player from './Player';
-import Stage from './Stage';
 import Status from './Status';
 import TextBlock from './TextBlock';
-import characterMap, { SQUIRTLE, BULBASAUR, CHARMANDER, MEW } from './characterMap';
+import characterMap from './characterMap';
 import sleep from './../utils/sleep';
-import { PLAYER_TYPE_COMPUTER, PLAYER_TYPE_HUMAN } from './constants';
 
-const pokemon = [ SQUIRTLE, BULBASAUR, CHARMANDER, MEW ];
+const pokemonNames = Object.keys(characterMap);
 
+function getRandomFromArray(arr) {
+  return arr[Math.floor(Math.random() * (arr.length))];
+}
 
 export default {
   components: {
     MoveSelector,
     Player,
-    Stage,
     Status,
     TextBlock
   },
@@ -37,19 +37,20 @@ export default {
     return {
       players: [
         {
-          character: clonedeep(characterMap[pokemon[Math.floor(Math.random() * (pokemon.length))]]),
-          type: PLAYER_TYPE_COMPUTER,
+          character: clonedeep(characterMap[getRandomFromArray(pokemonNames)]),
+          isHuman: false,
           name: 'Computer'
         },
         {
           character: clonedeep(characterMap[this.$route.query.pokemon]),
-          type: PLAYER_TYPE_HUMAN,
+          isHuman: true,
           name: this.$route.query.playerName
         }
       ],
       turn: 1,
       status: '',
       showMoves: false,
+      textSleep: 750,
     }
   },
   computed: {
@@ -67,9 +68,7 @@ export default {
     attack(move) {
       this.showMoves = false;
 
-      if (!move) {
-        move = this.attackingPlayerMoves[Math.floor(Math.random() * (this.attackingPlayerMoves.length))];
-      }
+      move = move || getRandomFromArray(this.attackingPlayerMoves);
 
       const moveDamage = this.attackingPlayer.character.moves[move];
       this.status = `${this.attackingPlayer.name}'s ${this.attackingPlayer.character.name} used ${move}!`;
@@ -77,46 +76,39 @@ export default {
       const hitRange = 100 - moveDamage;
       const hit = random < hitRange;
       
-      sleep(1000).then(() => {
+      sleep(this.textSleep).then(() => {
         if (hit) {
           this.status = `It's a direct hit! ${this.defendingPlayer.name}'s ${this.defendingPlayer.character.name} takes ${moveDamage} damage!`;
-          this.defendingPlayer.character.hp -= moveDamage
+          this.defendingPlayer.character.hp -= moveDamage;
         }
         else {
           this.status = 'Ooh, a miss!';
         }
-        return sleep(1000).then(() => {
+        return sleep(this.textSleep).then(() => {
           this.nextTurn();
         });
       });
     },
-    // engine stuff
     nextTurn() {
       this.turn = Math.abs(this.turn - 1);
       if (this.attackingPlayer.character.hp <= 0) {
         this.endGame();
         return;
       }
-      if (this.attackingPlayer.type === PLAYER_TYPE_HUMAN) {
-        this.humanTurn();
+      if (this.attackingPlayer.isHuman) {
+        this.showMoves = true;
       } else {
-        this.computerTurn();
+        this.status = 'Computer turn';
+        sleep(this.textSleep).then(this.attack());
       }
     },
     endGame() {
-      this.status = 'End of Game!';
+      this.status = `End of Game! ${this.defendingPlayer.name} is victorious!`;
     },
-    humanTurn() {
-      this.showMoves = true;
-    },
-    computerTurn() {
-      this.status = 'Computer turn';
-      sleep(1000).then(this.attack());
-    }
   },
   mounted() {
     this.status = `A wild ${this.players[0].character.name} appears!`;
-    sleep(1000).then(this.nextTurn);
+    sleep(this.textSleep).then(this.nextTurn);
   },
 }
 </script>

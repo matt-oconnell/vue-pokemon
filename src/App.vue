@@ -18,5 +18,16 @@ export default {
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+    max-width: 80%;
+    margin: 30px auto;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  * {
+    box-sizing: border-box;
   }
 </style>

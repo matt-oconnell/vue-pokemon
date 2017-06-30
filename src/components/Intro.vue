@@ -10,13 +10,13 @@
 </template>
 
 <script>
-import characterMap, { SQUIRTLE, BULBASAUR, CHARMANDER, MEW } from './characterMap';
+import characterMap from './characterMap';
 import Router from './../router';
 
 export default {
   data() {
     return {
-      pokemon: [SQUIRTLE, BULBASAUR, CHARMANDER, MEW],
+      pokemon: Object.keys(characterMap),
       playerName: 'Player1'
     }
   },
@@ -27,3 +27,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  ul {
+    list-style: none;
+  }
+</style>
