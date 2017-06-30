@@ -10,13 +10,13 @@
 </template>
 
 <script>
-import characterMap, { SQUIRTLE, BULBASAUR, CHARMANDER } from './characterMap';
+import characterMap, { SQUIRTLE, BULBASAUR, CHARMANDER, MEW } from './characterMap';
 import Router from './../router';
 
 export default {
   data() {
     return {
-      pokemon: [SQUIRTLE, BULBASAUR, CHARMANDER],
+      pokemon: [SQUIRTLE, BULBASAUR, CHARMANDER, MEW],
       playerName: 'Player1'
     }
   },

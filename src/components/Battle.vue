@@ -18,11 +18,11 @@ import Player from './Player';
 import Stage from './Stage';
 import Status from './Status';
 import TextBlock from './TextBlock';
-import characterMap, { SQUIRTLE, BULBASAUR, CHARMANDER } from './characterMap';
+import characterMap, { SQUIRTLE, BULBASAUR, CHARMANDER, MEW } from './characterMap';
 import sleep from './../utils/sleep';
 import { PLAYER_TYPE_COMPUTER, PLAYER_TYPE_HUMAN } from './constants';
 
-const pokemon = [ SQUIRTLE, BULBASAUR, CHARMANDER ];
+const pokemon = [ SQUIRTLE, BULBASAUR, CHARMANDER, MEW ];
 
 
 export default {
